@@ -1,0 +1,29 @@
+name: Add Label to Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - closed
+
+jobs:
+  add_label_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add label to pull request
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labelName = 'sprint 6';
+            await github.issues.addLabels({
+              owner: 'pranavk36',
+              repo: 'SnowFlake_Demo',
+              issue_number: context.issue.number,
+              labels: [labelName]
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
