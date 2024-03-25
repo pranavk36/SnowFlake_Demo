@@ -1,29 +1,20 @@
-name: Add Label to Pull Request
+name: Label PRs from feature to main
 
 on:
   pull_request:
-    branches:
-      - main
-    types:
-      - opened
-      - synchronize
-      - closed
+    types: [opened, synchronize, reopened]
 
 jobs:
-  add_label_job:
+  label_pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Add label to pull request
-        uses: actions/github-script@v5
+      - name: Check if PR is from feature to main
+        id: check_branches
+        run: echo "::set-output name=is_feature_to_main::$(if [ \"${{ github.event.pull_request.base.ref }}\" = 'main' ] && [ \"${{ github.event.pull_request.head.ref }}\" != 'main' ]; then echo true; else echo false; fi)"
+
+      - name: Add label if PR is from feature to main
+        if: steps.check_branches.outputs.is_feature_to_main == 'true'
+        uses: actions/labeler@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const labelName = 'sprint 6';
-            await github.issues.addLabels({
-              owner: 'pranavk36',
-              repo: 'SnowFlake_Demo',
-              issue_number: context.issue.number,
-              labels: [labelName]
-            });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/workflows/labeler.yml
