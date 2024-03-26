@@ -12,4 +12,4 @@ jobs:
         uses: shiftEscape/auto-label-pulls@v1.0.0
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          config-path: ".github/config/branch-labels.json"
+          config-path: "SnowFlake_Demo/labels.json"
