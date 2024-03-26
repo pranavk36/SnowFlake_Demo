@@ -14,7 +14,7 @@ jobs:
 
       - name: Add label if PR is from feature to main
         if: steps.check_branches.outputs.is_feature_to_main == 'true'
-        uses: actions/labeler@v2
+        uses: shiftEscape/auto-label-pulls@v1.0.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/workflows/labeler.yml
