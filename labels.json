@@ -1,0 +1,5 @@
+{
+  "feature": "🚀 Production Deployment",
+  "staging": "🚀 UAT Deployment",
+  "development": "🚀 SIT Deployment"
+}
